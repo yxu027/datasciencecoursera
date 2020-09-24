@@ -79,3 +79,27 @@ length(cr)
 cr <- corr("specdata")
 summary(cr)
 length(cr)
+
+
+corr2 <- function(directory, threshold = 0){
+  a <- c()
+  for(i in 1:332){
+    path <- paste(getwd(), "/", directory, "/", sprintf("%03d", i), ".csv", sep = "")
+    data <- read.csv(path)
+    Tnumber <- complete(directory, i)
+    if (Tnumber[,2] > threshold){
+      b <- cor(data[,2], data[,3], use = "complete.obs")
+    } else {
+      b <- NULL
+    }
+    a <- c(a, b)
+  }
+  return(a)
+}
+
+cr <- corr2("specdata", 150)
+head(cr)
+summary(cr)
+
+cr <- corr2("specdata", 400)
+head(cr)
